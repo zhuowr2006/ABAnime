@@ -83,6 +83,14 @@ public  class HttpApiManager {
         api.setObservable(httpService.getVideoPHList(num));
         manager.doHttpDeal(api);
     }
+    public static void getVideoDetails(HttpManager manager,String aid) {
+        BaseApi api = new BaseApi();
+        api.setBaseUrl(BaseUrl.APP_BASE_URL);
+        api.setMethod("getVideoDetails");//用来识别返回时是哪个数据
+        HttpPostService httpService = manager.getReTrofit(api).create(HttpPostService.class);
+        api.setObservable(httpService.getVideoDetails(aid));
+        manager.doHttpDeal(api);
+    }
 
     public static void getVideoTag(HttpManager manager,String aid) {
         BaseApi api = new BaseApi();

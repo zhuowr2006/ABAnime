@@ -1,5 +1,6 @@
 package com.hema.abanime.abanime.ui.info;
 
+import com.google.gson.Gson;
 import com.hema.abanime.abanime.MVP.presenter.PMlistener;
 import com.hema.abanime.abanime.MVP.presenter.Plistener;
 import com.hema.abanime.abanime.MVP.ui.Vlistener;
@@ -34,6 +35,7 @@ public class InfoP implements Plistener, PMlistener {
     private Map<String, String> map;
     private ArrayList<String> urls;
     private RxFragmentActivity aty;
+    private VideoDetailsInfo info;
 
 
     public InfoP(Vlistener viewListener) {
@@ -46,6 +48,9 @@ public class InfoP implements Plistener, PMlistener {
         mlistener.startPost(rxFragmentActivity);
     }
 
+    public void startPostvideoDetails(RxFragmentActivity rxAppCompatActivity,String aid) {
+        mlistener.startPostvideoDetails(rxAppCompatActivity,aid);
+    }
     public void startPostVideoTag(RxFragmentActivity rxAppCompatActivity,String aid) {
         mlistener.startPostVideoTag(rxAppCompatActivity,aid);
     }
@@ -67,9 +72,13 @@ public class InfoP implements Plistener, PMlistener {
         }else if (mothead.equals("getBiliAVSearchHtml")){
             map =parseSearchUrl(resulte);
             startPostAVVideoHtml(aty,map);
-        }else {
+        }else if (mothead.equals("getBiliAVVideoHtml")){
             urls=parseVideoUrl(resulte);
             vlistener.onNext("getBiliAVVideoHtml");
+        }else{
+            Gson gson=new Gson();
+            info=gson.fromJson(resulte,VideoDetailsInfo.class);
+            vlistener.onNext("getVideoDetails");
         }
     }
 
@@ -131,5 +140,9 @@ public class InfoP implements Plistener, PMlistener {
 
     public ArrayList<String> getUrls() {
         return urls;
+    }
+
+    public VideoDetailsInfo getInfo() {
+        return info;
     }
 }

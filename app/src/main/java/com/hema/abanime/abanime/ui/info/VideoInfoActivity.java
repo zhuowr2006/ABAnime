@@ -42,7 +42,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Administrator on 2016/3/24.
  */
-public class VideoInfoActivity extends RxFragmentActivity implements Vlistener,View.OnClickListener, AppBarLayout.OnOffsetChangedListener {
+public class VideoInfoActivity extends RxFragmentActivity implements Vlistener, View.OnClickListener, AppBarLayout.OnOffsetChangedListener {
 
     @BindView(R.id.back)
     ImageView back;
@@ -73,8 +73,14 @@ public class VideoInfoActivity extends RxFragmentActivity implements Vlistener,V
     @BindView(R.id.playButton)
     FloatingActionButton bofangButton;
     private static final String TAG = "VideoInfoActivity";
+    @BindView(R.id.share_num)
+    TextView shareNum;
+    @BindView(R.id.coin_num)
+    TextView coinNum;
+    @BindView(R.id.fav_num)
+    TextView favNum;
 
-//    protected Gson gson;
+    //    protected Gson gson;
     private String[] list;
 
 
@@ -105,34 +111,34 @@ public class VideoInfoActivity extends RxFragmentActivity implements Vlistener,V
     }
 
 
-    private  String pic;
-    private  String av;
-    private  String titletext;
-    private  String up;
-    private  String plays;
-    private  String danmu;
-    private  String desc;
+    private String pic;
+    private String av;
+    private String titletext;
+    private String up;
+    private String plays;
+    private String danmu;
+    private String desc;
 
     protected void init() {
-        infoP=new InfoP(this);
-        if (getIntent().getIntExtra("type",0)==0){
+        infoP = new InfoP(this);
+        if (getIntent().getIntExtra("type", 0) == 0) {
             videoinfo = (VideoItemBean) getIntent().getSerializableExtra("videoItemdata");
-            pic=videoinfo.getPic();
-            av=videoinfo.getAid()+"";
-            titletext=videoinfo.getTitle();
-            up=videoinfo.getOwner().getName();
-            plays=videoinfo.getStat().getView()+"";
-            danmu=videoinfo.getStat().getDanmaku()+"";
-            desc=videoinfo.getDesc()+"";
-        }else {
+            pic = videoinfo.getPic();
+            av = videoinfo.getAid() + "";
+            titletext = videoinfo.getTitle();
+            up = videoinfo.getOwner().getName();
+            plays = videoinfo.getStat().getView() + "";
+            danmu = videoinfo.getStat().getDanmaku() + "";
+            desc = videoinfo.getDesc() + "";
+        } else {
             videoinfo2 = (VideoItemexBean) getIntent().getSerializableExtra("videoItemdata");
-            pic=videoinfo2.getPic();
-            av=videoinfo2.getAid()+"";
-            titletext=videoinfo2.getTitle();
-            up=videoinfo2.getAuthor();
-            plays=videoinfo2.getPlay();
-            danmu=videoinfo2.getVideo_review();
-            desc=videoinfo2.getDescription();
+            pic = videoinfo2.getPic();
+            av = videoinfo2.getAid() + "";
+            titletext = videoinfo2.getTitle();
+            up = videoinfo2.getAuthor();
+            plays = videoinfo2.getPlay();
+            danmu = videoinfo2.getVideo_review();
+            desc = videoinfo2.getDescription();
         }
         Glide.with(this)
                 .load(pic)
@@ -153,18 +159,34 @@ public class VideoInfoActivity extends RxFragmentActivity implements Vlistener,V
         danmaguTextView.setText("弹幕：" + danmu);
         durationTextView.setText("  " + desc);
 
-
-        infoP.startPostVideoTag(this,av);
-        infoP.startPostAVSearchHtml(this,av);
+        infoP.startPostvideoDetails(this, av);
+        infoP.startPostVideoTag(this, av);
+        infoP.startPostAVSearchHtml(this, av);
     }
 
     @Override
     public void onNext(String name) {
-        if (name.equals("getVideoTag")){
+        if (name.equals("getVideoTag")) {
             initFlow(infoP.getFlowStr());
-        }else {
-            videoUrlList=infoP.getUrls();
+        } else if (name.equals("getBiliAVVideoHtml")) {
+            videoUrlList = infoP.getUrls();
+        } else {
+            //设置分享 收藏 投币数量
+            shareNum.setText(converString(infoP.getInfo().getData().getStat().getShare()));
+            favNum.setText(converString(infoP.getInfo().getData().getStat().getFavorite()));
+            coinNum.setText(converString(infoP.getInfo().getData().getStat().getCoin()));
         }
+    }
+    public static String converString(int num) {
+
+        if (num < 100000) {
+            return String.valueOf(num);
+        }
+        String unit = "万";
+        double newNum = num / 10000.0;
+
+        String numStr = String.format("%." + 1 + "f", newNum);
+        return numStr + unit;
     }
 
     @Override
@@ -192,11 +214,11 @@ public class VideoInfoActivity extends RxFragmentActivity implements Vlistener,V
             case R.id.playButton:
             case R.id.play_layout:
                 if (videoUrlList != null) {
-                    Log.i(TAG, "onClick: "+videoUrlList.get(0));
+                    Log.i(TAG, "onClick: " + videoUrlList.get(0));
                     Intent intent = new Intent();
                     intent.setClass(this, PlayActivity.class);
-                    intent.putExtra("type",1);
-                    intent.putExtra("video1", videoUrlList.get(0));
+                    intent.putExtra("type", 1);
+                    intent.putExtra("video1", "http://www.bilibili.com/video/av15186062/");
 //                    intent.putExtra("video2",videoUrlList.get(1));
                     intent.putExtra("title", titletext);
                     startActivity(intent);

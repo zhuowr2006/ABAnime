@@ -83,12 +83,14 @@ public interface HttpPostService {
 
 
     /**
-     //     * 视频详情数据
-     //     *
-     //     * @param aid
-     //     * @return
-     //     */
-    //mobile/video/av5261891.html
+     * 视频详情数据
+     *
+     * @param aid
+     * @return
+     */
+    @GET("x/view?access_key=19946e1ef3b5cad1a756c475a67185bb&actionKey=appkey&appkey=27eb53fc9058f8c3&build=3940&device=phone&mobi_app=iphone&platform=ios&sign=1206255541e2648c1badb87812458046&ts=1478349831")
+    Observable<String> getVideoDetails(@Query("aid") String aid);
+
 
     @GET("mobile/video/av{aid}.html")
     Observable<String> getVideoTag(@Path("aid") String aid);

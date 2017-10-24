@@ -18,4 +18,6 @@ public class MyApplication extends Application{
         app=getApplicationContext();
         RxRetrofitApp.init(this);
     }
+
+
 }

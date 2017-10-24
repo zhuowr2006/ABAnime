@@ -43,6 +43,10 @@ public class InfoM implements Mlistener, HttpOnNextListener {
         HttpManager manager = new HttpManager(this, rxAppCompatActivity);
         HttpApiManager.getVideoTag(manager,aid);
     }
+    public void startPostvideoDetails(RxFragmentActivity rxAppCompatActivity,String aid) {
+        HttpManager manager = new HttpManager(this, rxAppCompatActivity);
+        HttpApiManager.getVideoDetails(manager,aid);
+    }
 
     public void startPostAVSearchHtml(RxFragmentActivity rxAppCompatActivity,String aid) {
         HttpManager manager = new HttpManager(this, rxAppCompatActivity);
