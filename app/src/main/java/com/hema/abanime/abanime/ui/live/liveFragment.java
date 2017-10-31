@@ -15,7 +15,6 @@ import com.hema.abanime.abanime.play.PlayActivity;
 import com.hema.abanime.abanime.ui.live.adapter.LiveSectionAdapter;
 import com.hema.abanime.abanime.utils.BannerGlideImageLoader;
 import com.hema.abanime.abanime.utils.Md5;
-import com.trello.rxlifecycle2.components.support.RxFragmentActivity;
 import com.wzgiceman.rxretrofitlibrary.retrofit_rx.exception.ApiException;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -46,6 +45,8 @@ public class liveFragment extends BaseFragment implements Vlistener, SwipeRefres
         return R.layout.fragment_fanju;
     }
 
+
+
     @Override
     public void onInit() {
         recomP = new liveP(this);//数据控制类
@@ -68,7 +69,7 @@ public class liveFragment extends BaseFragment implements Vlistener, SwipeRefres
             }
         });
         fanjuRcview.setAdapter(adapter);
-        recomP.startPost((RxFragmentActivity) mActivity);
+        recomP.startPostForFragment(this);
         swipeLayout.setRefreshing(true);
 
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -83,7 +84,7 @@ public class liveFragment extends BaseFragment implements Vlistener, SwipeRefres
 
                     recomP.setLiveTitle(recomP.getData().get(position).t.getTitle());
                     String sign = Md5.strToMd5Low32(apiParams + secretKey);
-                    recomP.startPostLive((RxFragmentActivity) mActivity, cid, appKey, ts, sign);
+                    recomP.startPostLive(liveFragment.this, cid, appKey, ts, sign);
                 }
             }
         });
@@ -122,13 +123,13 @@ public class liveFragment extends BaseFragment implements Vlistener, SwipeRefres
 
     @Override
     public void onError(ApiException e) {
-
+        swipeLayout.setRefreshing(false);
     }
 
 
     @Override
     public void onRefresh() {
         recomP.cleran();
-        recomP.startPost((RxFragmentActivity) mActivity);
+        recomP.startPostForFragment(this);
     }
 }

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +25,7 @@ import com.hema.abanime.abanime.R;
 import com.hema.abanime.abanime.play.PlayActivity;
 import com.hema.abanime.abanime.ui.recommend.bean.VideoItemBean;
 import com.hema.abanime.abanime.ui.subarea.bean.VideoItemexBean;
-import com.trello.rxlifecycle2.components.support.RxFragmentActivity;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import com.wzgiceman.rxretrofitlibrary.retrofit_rx.exception.ApiException;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
@@ -42,7 +43,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Administrator on 2016/3/24.
  */
-public class VideoInfoActivity extends RxFragmentActivity implements Vlistener, View.OnClickListener, AppBarLayout.OnOffsetChangedListener {
+public class VideoInfoActivity extends RxAppCompatActivity implements Vlistener, View.OnClickListener, AppBarLayout.OnOffsetChangedListener {
 
     @BindView(R.id.back)
     ImageView back;
@@ -79,6 +80,8 @@ public class VideoInfoActivity extends RxFragmentActivity implements Vlistener, 
     TextView coinNum;
     @BindView(R.id.fav_num)
     TextView favNum;
+    @BindView(R.id.main_toolbar)
+    Toolbar mainToolbar;
 
     //    protected Gson gson;
     private String[] list;
@@ -94,6 +97,14 @@ public class VideoInfoActivity extends RxFragmentActivity implements Vlistener, 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//
+//                getWindow().setStatusBarColor(getResources().getColor(R.color.bili_red));
+//            }
+//        }
         setContentView(R.layout.activity_video);
         ButterKnife.bind(this);//VIEW绑定
         init();
@@ -120,6 +131,9 @@ public class VideoInfoActivity extends RxFragmentActivity implements Vlistener, 
     private String desc;
 
     protected void init() {
+
+
+
         infoP = new InfoP(this);
         if (getIntent().getIntExtra("type", 0) == 0) {
             videoinfo = (VideoItemBean) getIntent().getSerializableExtra("videoItemdata");
@@ -177,6 +191,7 @@ public class VideoInfoActivity extends RxFragmentActivity implements Vlistener, 
             coinNum.setText(converString(infoP.getInfo().getData().getStat().getCoin()));
         }
     }
+
     public static String converString(int num) {
 
         if (num < 100000) {

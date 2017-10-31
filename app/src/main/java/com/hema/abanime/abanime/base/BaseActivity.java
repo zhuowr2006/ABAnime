@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hema.abanime.abanime.R;
-import com.trello.rxlifecycle2.components.support.RxFragmentActivity;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import com.wzgiceman.rxretrofitlibrary.retrofit_rx.exception.ApiException;
 import com.wzgiceman.rxretrofitlibrary.retrofit_rx.http.HttpManager;
 import com.wzgiceman.rxretrofitlibrary.retrofit_rx.listener.HttpOnNextListener;
@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
  * 基础Activity类
  */
 
-public abstract class BaseActivity extends RxFragmentActivity implements HttpOnNextListener, BaseInit {
+public abstract class BaseActivity extends RxAppCompatActivity implements HttpOnNextListener, BaseInit {
     /**
      *基础界面控件 */
     private TextView toptext;
@@ -37,6 +37,7 @@ public abstract class BaseActivity extends RxFragmentActivity implements HttpOnN
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         /**
          * 是否继承界面*/
         if (isExtendToBaseLayout){

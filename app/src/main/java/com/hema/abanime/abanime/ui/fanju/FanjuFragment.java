@@ -14,7 +14,6 @@ import com.hema.abanime.abanime.R;
 import com.hema.abanime.abanime.base.BaseFragment;
 import com.hema.abanime.abanime.ui.fanju.adapter.MultipleItemQuickAdapter;
 import com.hema.abanime.abanime.utils.BannerGlideImageLoader;
-import com.trello.rxlifecycle2.components.support.RxFragmentActivity;
 import com.wzgiceman.rxretrofitlibrary.retrofit_rx.exception.ApiException;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -70,7 +69,7 @@ public class FanjuFragment extends BaseFragment implements Vlistener, SwipeRefre
             }
         });
         fanjuRcview.setAdapter(adapter);
-        fanjuP.startPost((RxFragmentActivity) mActivity);
+        fanjuP.startPostForFragment(this);
         swipeLayout.setRefreshing(true);
     }
     private boolean isFrist=true;
@@ -104,7 +103,7 @@ public class FanjuFragment extends BaseFragment implements Vlistener, SwipeRefre
 
     @Override
     public void onError(ApiException e) {
-
+        swipeLayout.setRefreshing(false);
     }
 
     @Override
@@ -118,6 +117,6 @@ public class FanjuFragment extends BaseFragment implements Vlistener, SwipeRefre
     @Override
     public void onRefresh() {
         fanjuP.cleran();
-        fanjuP.startPost((RxFragmentActivity) mActivity);
+        fanjuP.startPostForFragment(this);
     }
 }

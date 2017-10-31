@@ -3,7 +3,8 @@ package com.hema.abanime.abanime.ui.recommend;
 import com.hema.abanime.abanime.MVP.model.Mlistener;
 import com.hema.abanime.abanime.MVP.presenter.PMlistener;
 import com.hema.abanime.abanime.net.api.HttpApiManager;
-import com.trello.rxlifecycle2.components.support.RxFragmentActivity;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
+import com.trello.rxlifecycle2.components.support.RxFragment;
 import com.wzgiceman.rxretrofitlibrary.retrofit_rx.exception.ApiException;
 import com.wzgiceman.rxretrofitlibrary.retrofit_rx.http.HttpManager;
 import com.wzgiceman.rxretrofitlibrary.retrofit_rx.listener.HttpOnNextListener;
@@ -30,11 +31,14 @@ public class recomM implements Mlistener, HttpOnNextListener {
         pVlistener.onError(e);
     }
 
+    @Override
+    public void startPostForActivity(RxAppCompatActivity rxAppCompatActivity) {
+
+    }
 
     @Override
-    public void startPost(RxFragmentActivity rxAppCompatActivity) {
-        System.out.println("推荐===============");
-        HttpManager manager = new HttpManager(this, rxAppCompatActivity);
+    public void startPostForFragment(RxFragment rxFragment) {
+        HttpManager manager = new HttpManager(this, rxFragment);
         HttpApiManager.getRecommendedBannerInfo(manager);
         HttpApiManager.getRecommendedInfo(manager);
     }

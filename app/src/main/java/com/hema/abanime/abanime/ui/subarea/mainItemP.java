@@ -8,6 +8,7 @@ import com.hema.abanime.abanime.MVP.ui.Vlistener;
 import com.hema.abanime.abanime.ui.subarea.bean.VideoItemexBean;
 import com.hema.abanime.abanime.ui.subarea.bean.VideolistBean;
 import com.hema.abanime.abanime.ui.subarea.bean.VideolistexBean;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import com.trello.rxlifecycle2.components.support.RxFragmentActivity;
 import com.wzgiceman.rxretrofitlibrary.retrofit_rx.exception.ApiException;
 
@@ -38,7 +39,7 @@ public class mainItemP implements Pxlistener, PMlistener {
     }
 
     @Override
-    public void startPost(RxFragmentActivity rxFragmentActivity,int type) {
+    public void startPost(RxAppCompatActivity rxFragmentActivity, int type) {
         mlistener.startPost(rxFragmentActivity,type);
     }
 

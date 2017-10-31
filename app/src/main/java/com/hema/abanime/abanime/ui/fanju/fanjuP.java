@@ -10,7 +10,8 @@ import com.hema.abanime.abanime.ui.fanju.bean.BangumiAppIndexInfo;
 import com.hema.abanime.abanime.ui.fanju.bean.BangumiRecommendInfo;
 import com.hema.abanime.abanime.ui.fanju.bean.BangumiTitleBean;
 import com.hema.abanime.abanime.ui.fanju.bean.MultipleItem;
-import com.trello.rxlifecycle2.components.support.RxFragmentActivity;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
+import com.trello.rxlifecycle2.components.support.RxFragment;
 import com.wzgiceman.rxretrofitlibrary.retrofit_rx.exception.ApiException;
 
 import java.util.ArrayList;
@@ -39,11 +40,6 @@ public class fanjuP implements Plistener, PMlistener {
     public fanjuP(Vlistener viewListener) {
         this.vlistener = viewListener;
         mlistener=new fanjuM(this);
-    }
-
-    @Override
-    public void startPost(RxFragmentActivity rxFragmentActivity) {
-        mlistener.startPost(rxFragmentActivity);
     }
 
     public void cleran(){
@@ -123,4 +119,13 @@ public class fanjuP implements Plistener, PMlistener {
         return urls;
     }
 
+    @Override
+    public void startPostForActivity(RxAppCompatActivity rxAppCompatActivity) {
+
+    }
+
+    @Override
+    public void startPostForFragment(RxFragment rxFragment) {
+        mlistener.startPostForFragment(rxFragment);
+    }
 }

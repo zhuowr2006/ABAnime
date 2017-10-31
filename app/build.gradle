@@ -54,4 +54,6 @@ dependencies {
     // Bilibili 烈焰弹幕使
     compile 'com.github.ctiao:DanmakuFlameMaster:0.7.9'
     compile 'com.github.ctiao:ndkbitmap-armv7a:0.7.9'
+
+    compile 'com.jaeger.statusbarutil:library:1.4.0'
 }

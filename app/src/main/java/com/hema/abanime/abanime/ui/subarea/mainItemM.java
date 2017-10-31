@@ -3,7 +3,7 @@ package com.hema.abanime.abanime.ui.subarea;
 import com.hema.abanime.abanime.MVP.presenter.PMlistener;
 import com.hema.abanime.abanime.net.api.BaseUrl;
 import com.hema.abanime.abanime.net.api.HttpApiManager;
-import com.trello.rxlifecycle2.components.support.RxFragmentActivity;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import com.wzgiceman.rxretrofitlibrary.retrofit_rx.exception.ApiException;
 import com.wzgiceman.rxretrofitlibrary.retrofit_rx.http.HttpManager;
 import com.wzgiceman.rxretrofitlibrary.retrofit_rx.listener.HttpOnNextListener;
@@ -32,7 +32,7 @@ public class mainItemM implements Mxlistener, HttpOnNextListener {
 
 
     @Override
-    public void startPost(RxFragmentActivity rxAppCompatActivity, int type) {
+    public void startPost(RxAppCompatActivity rxAppCompatActivity, int type) {
         HttpManager manager = new HttpManager(this, rxAppCompatActivity);
         if (type<1000){
             HttpApiManager.getVideoList(manager,BaseUrl.getVideoListURL(type));

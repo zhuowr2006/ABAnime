@@ -16,7 +16,6 @@ import com.hema.abanime.abanime.ui.info.VideoInfoActivity;
 import com.hema.abanime.abanime.ui.recommend.adapter.SectionAdapter;
 import com.hema.abanime.abanime.ui.recommend.bean.VideoItemBean;
 import com.hema.abanime.abanime.utils.BannerGlideImageLoader;
-import com.trello.rxlifecycle2.components.support.RxFragmentActivity;
 import com.wzgiceman.rxretrofitlibrary.retrofit_rx.exception.ApiException;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -85,7 +84,7 @@ public class recomFragment extends BaseFragment implements Vlistener, SwipeRefre
             }
         });
         fanjuRcview.setAdapter(adapter);
-        recomP.startPost((RxFragmentActivity) mActivity);
+        recomP.startPostForFragment(this);
         swipeLayout.setRefreshing(true);
     }
     private boolean isFrist=true;
@@ -112,12 +111,12 @@ public class recomFragment extends BaseFragment implements Vlistener, SwipeRefre
 
     @Override
     public void onError(ApiException e) {
-
+        swipeLayout.setRefreshing(false);
     }
 
     @Override
     public void onRefresh() {
         recomP.cleran();
-        recomP.startPost((RxFragmentActivity) mActivity);
+        recomP.startPostForFragment(this);
     }
 }

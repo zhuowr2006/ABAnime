@@ -9,7 +9,8 @@ import com.hema.abanime.abanime.R;
 import com.hema.abanime.abanime.ui.recommend.bean.BannerBean;
 import com.hema.abanime.abanime.ui.recommend.bean.MySection;
 import com.hema.abanime.abanime.ui.recommend.bean.VideoItemBean;
-import com.trello.rxlifecycle2.components.support.RxFragmentActivity;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
+import com.trello.rxlifecycle2.components.support.RxFragment;
 import com.wzgiceman.rxretrofitlibrary.retrofit_rx.exception.ApiException;
 
 import org.json.JSONException;
@@ -45,9 +46,15 @@ public class recomP implements Plistener, PMlistener {
         mlistener=new recomM(this);
     }
 
+
     @Override
-    public void startPost(RxFragmentActivity rxFragmentActivity) {
-        mlistener.startPost(rxFragmentActivity);
+    public void startPostForActivity(RxAppCompatActivity rxAppCompatActivity) {
+
+    }
+
+    @Override
+    public void startPostForFragment(RxFragment rxFragment) {
+        mlistener.startPostForFragment(rxFragment);
     }
 
     public void cleran(){

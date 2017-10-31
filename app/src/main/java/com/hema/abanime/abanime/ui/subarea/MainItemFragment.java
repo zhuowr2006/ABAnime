@@ -19,7 +19,7 @@ import com.hema.abanime.abanime.base.BaseFragment;
 import com.hema.abanime.abanime.ui.info.VideoInfoActivity;
 import com.hema.abanime.abanime.ui.subarea.bean.VideoItemexBean;
 import com.hema.abanime.abanime.utils.ImageLoaderUtil;
-import com.trello.rxlifecycle2.components.support.RxFragmentActivity;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import com.wzgiceman.rxretrofitlibrary.retrofit_rx.exception.ApiException;
 
 import java.util.List;
@@ -80,13 +80,13 @@ public class MainItemFragment extends BaseFragment implements Vlistener, SwipeRe
                 startActivity(i);
             }
         });
-        mainItemP.startPost((RxFragmentActivity) mActivity,videoType);
+        mainItemP.startPost((RxAppCompatActivity) mActivity,videoType);
     }
 
     @Override
     public void onRefresh() {
         mainItemP.cleran();
-        mainItemP.startPost((RxFragmentActivity) mActivity,videoType);
+        mainItemP.startPost((RxAppCompatActivity) mActivity,videoType);
     }
 
     @Override

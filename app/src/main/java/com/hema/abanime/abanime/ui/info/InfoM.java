@@ -3,7 +3,8 @@ package com.hema.abanime.abanime.ui.info;
 import com.hema.abanime.abanime.MVP.model.Mlistener;
 import com.hema.abanime.abanime.MVP.presenter.PMlistener;
 import com.hema.abanime.abanime.net.api.HttpApiManager;
-import com.trello.rxlifecycle2.components.support.RxFragmentActivity;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
+import com.trello.rxlifecycle2.components.support.RxFragment;
 import com.wzgiceman.rxretrofitlibrary.retrofit_rx.exception.ApiException;
 import com.wzgiceman.rxretrofitlibrary.retrofit_rx.http.HttpManager;
 import com.wzgiceman.rxretrofitlibrary.retrofit_rx.listener.HttpOnNextListener;
@@ -34,27 +35,32 @@ public class InfoM implements Mlistener, HttpOnNextListener {
     }
 
 
-    @Override
-    public void startPost(RxFragmentActivity rxAppCompatActivity) {
-
-    }
-
-    public void startPostVideoTag(RxFragmentActivity rxAppCompatActivity,String aid) {
+    public void startPostVideoTag(RxAppCompatActivity rxAppCompatActivity,String aid) {
         HttpManager manager = new HttpManager(this, rxAppCompatActivity);
         HttpApiManager.getVideoTag(manager,aid);
     }
-    public void startPostvideoDetails(RxFragmentActivity rxAppCompatActivity,String aid) {
+    public void startPostvideoDetails(RxAppCompatActivity rxAppCompatActivity,String aid) {
         HttpManager manager = new HttpManager(this, rxAppCompatActivity);
         HttpApiManager.getVideoDetails(manager,aid);
     }
 
-    public void startPostAVSearchHtml(RxFragmentActivity rxAppCompatActivity,String aid) {
+    public void startPostAVSearchHtml(RxAppCompatActivity rxAppCompatActivity,String aid) {
         HttpManager manager = new HttpManager(this, rxAppCompatActivity);
         HttpApiManager.getBiliAVSearchHtml(manager,aid);
     }
 
-    public void startPostAVVideoHtml(RxFragmentActivity rxAppCompatActivity,Map<String, String> map) {
+    public void startPostAVVideoHtml(RxAppCompatActivity rxAppCompatActivity,Map<String, String> map) {
         HttpManager manager = new HttpManager(this, rxAppCompatActivity);
         HttpApiManager.getBiliAVVideoHtml(manager,map);
+    }
+
+    @Override
+    public void startPostForActivity(RxAppCompatActivity rxAppCompatActivity) {
+
+    }
+
+    @Override
+    public void startPostForFragment(RxFragment rxFragment) {
+
     }
 }

@@ -1,6 +1,7 @@
 package com.hema.abanime.abanime.MVP.model;
 
-import com.trello.rxlifecycle2.components.support.RxFragmentActivity;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
+import com.trello.rxlifecycle2.components.support.RxFragment;
 
 /**
  * m层提供给p层的接口
@@ -13,6 +14,11 @@ public interface Mlistener {
      * 开始任务
      * @param rxAppCompatActivity
      */
-    void startPost(RxFragmentActivity rxAppCompatActivity);
+    void startPostForActivity(RxAppCompatActivity rxAppCompatActivity);
+    /**
+     * 开始任务
+     * @param rxFragment
+     */
+    void startPostForFragment(RxFragment rxFragment);
 
 }

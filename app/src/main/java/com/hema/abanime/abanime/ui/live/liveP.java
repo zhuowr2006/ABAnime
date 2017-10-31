@@ -6,7 +6,8 @@ import com.hema.abanime.abanime.MVP.presenter.Plistener;
 import com.hema.abanime.abanime.MVP.ui.Vlistener;
 import com.hema.abanime.abanime.ui.live.bean.LiveAppIndexInfo;
 import com.hema.abanime.abanime.ui.live.bean.LiveSection;
-import com.trello.rxlifecycle2.components.support.RxFragmentActivity;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
+import com.trello.rxlifecycle2.components.support.RxFragment;
 import com.wzgiceman.rxretrofitlibrary.retrofit_rx.exception.ApiException;
 
 import org.dom4j.Document;
@@ -50,12 +51,20 @@ public class liveP implements Plistener, PMlistener {
         mlistener=new liveM(this);
     }
 
+
     @Override
-    public void startPost(RxFragmentActivity rxFragmentActivity) {
-        mlistener.startPost(rxFragmentActivity);
+    public void startPostForActivity(RxAppCompatActivity rxAppCompatActivity) {
+
     }
-    public void startPostLive(RxFragmentActivity rxAppCompatActivity,String cid, String appkey, String ts, String sign) {
-        mlistener.startPostLive(rxAppCompatActivity,cid,appkey,ts,sign);
+
+    @Override
+    public void startPostForFragment(RxFragment rxFragment) {
+        mlistener.startPostForFragment(rxFragment);
+    }
+
+
+    public void startPostLive(RxFragment rxFragment, String cid, String appkey, String ts, String sign) {
+        mlistener.startPostLive(rxFragment,cid,appkey,ts,sign);
     }
 
     public void cleran(){
@@ -142,4 +151,6 @@ public class liveP implements Plistener, PMlistener {
     public void onError(ApiException e) {
         vlistener.onError(e);
     }
+
+
 }

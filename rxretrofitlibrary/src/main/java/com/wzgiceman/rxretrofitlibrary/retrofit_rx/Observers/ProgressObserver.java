@@ -1,6 +1,7 @@
 package com.wzgiceman.rxretrofitlibrary.retrofit_rx.Observers;
 
 
+import android.accounts.NetworkErrorException;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -34,7 +35,7 @@ public class ProgressObserver<T> extends ResourceObserver<T> {
     //    回调接口
     private SoftReference<HttpOnNextListener> mObserverOnNextListener;
     //    软引用反正内存泄露
-    private SoftReference<Context> mActivity;
+    private Context mActivity;
     //    加载框可自己定义
     private ProgressDialog pd;
     /*请求数据*/
@@ -46,7 +47,7 @@ public class ProgressObserver<T> extends ResourceObserver<T> {
      *
      * @param api
      */
-    public ProgressObserver(BaseApi api, SoftReference<HttpOnNextListener> listenerSoftReference, SoftReference<Context>
+    public ProgressObserver(BaseApi api, SoftReference<HttpOnNextListener> listenerSoftReference, Context
             mActivity) {
         this.api = api;
         this.mObserverOnNextListener = listenerSoftReference;
@@ -58,11 +59,12 @@ public class ProgressObserver<T> extends ResourceObserver<T> {
     }
 
 
+
     /**
      * 初始化加载框
      */
     private void initProgressDialog(boolean cancel) {
-        Context context = mActivity.get();
+        Context context = mActivity;
         if (pd == null && context != null) {
             pd = new ProgressDialog(context);
             pd.setCancelable(cancel);
@@ -83,7 +85,7 @@ public class ProgressObserver<T> extends ResourceObserver<T> {
      */
     private void showProgressDialog() {
         if (!isShowPorgress()) return;
-        Context context = mActivity.get();
+        Context context = mActivity;
         if (pd == null || context == null) return;
         if (!pd.isShowing()) {
             pd.show();
@@ -108,6 +110,13 @@ public class ProgressObserver<T> extends ResourceObserver<T> {
      */
     @Override
     public void onStart() {
+        if (!AppUtil.isNetworkAvailable(RxRetrofitApp.getApplication())){ /*没连网*/
+            ApiException exception=new ApiException(new NetworkErrorException(),CodeException.NETWORD_ERROR,"网络连接错误");
+            HttpOnNextListener httpOnNextListener = mObserverOnNextListener.get();
+            if (httpOnNextListener == null) return;
+            httpOnNextListener.onError((ApiException) exception, api.getMethod());
+            return;
+        }
         showProgressDialog();
         /*缓存并且有网*/
         if (api.isCache() && AppUtil.isNetworkAvailable(RxRetrofitApp.getApplication())) {
@@ -193,7 +202,7 @@ public class ProgressObserver<T> extends ResourceObserver<T> {
      * @param e
      */
     private void errorDo(Throwable e) {
-        Context context = mActivity.get();
+        Context context = mActivity;
         if (context == null) return;
         HttpOnNextListener httpOnNextListener = mObserverOnNextListener.get();
         if (httpOnNextListener == null) return;

@@ -50,6 +50,7 @@ public class SubareaFragment extends BaseFragment {
         adapter = new SubareaAdapter(R.layout.item_home_subarea, mVals);
         adapter.openLoadAnimation();
         fanjuRcview.setAdapter(adapter);
+
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {

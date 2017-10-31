@@ -1,11 +1,13 @@
 package com.hema.abanime.abanime.base;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.trello.rxlifecycle2.components.support.RxFragment;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -15,15 +17,15 @@ import butterknife.Unbinder;
  * 基础Fragment类
  */
 
-public abstract class BaseFragment extends com.trello.rxlifecycle2.components.support.RxFragment implements BaseInit {
+public abstract class BaseFragment extends RxFragment implements BaseInit {
     protected Unbinder unbinder;
-    protected FragmentActivity mActivity;
+    protected Activity mActivity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(getLayoutResId(), container, false);
         unbinder = ButterKnife.bind(this, view);
-        mActivity=getActivity();
+        mActivity= getActivity();
         onInit();
         setListener();
         return view;

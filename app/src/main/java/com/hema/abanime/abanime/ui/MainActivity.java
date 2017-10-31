@@ -114,7 +114,7 @@ public class MainActivity extends TranslucentBarBaseActivity implements Navigati
     private void setupViewPager(ViewPager viewPager) {
         adapter = new Adapter(getSupportFragmentManager());
 
-        String[] strs = new String[]{"番剧", "推荐",  "直播","分区"};
+        String[] strs = new String[]{"番剧", "推荐","直播","分区"};
 
         adapter.addFragment(new FanjuFragment(), strs[0]);
         adapter.addFragment(new recomFragment(), strs[1]);

@@ -5,7 +5,8 @@ import com.hema.abanime.abanime.MVP.presenter.PMlistener;
 import com.hema.abanime.abanime.MVP.presenter.Plistener;
 import com.hema.abanime.abanime.MVP.ui.Vlistener;
 import com.hema.abanime.abanime.utils.Md5;
-import com.trello.rxlifecycle2.components.support.RxFragmentActivity;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
+import com.trello.rxlifecycle2.components.support.RxFragment;
 import com.wzgiceman.rxretrofitlibrary.retrofit_rx.exception.ApiException;
 
 import org.dom4j.DocumentException;
@@ -34,7 +35,7 @@ public class InfoP implements Plistener, PMlistener {
     private String FlowStr;
     private Map<String, String> map;
     private ArrayList<String> urls;
-    private RxFragmentActivity aty;
+    private RxAppCompatActivity aty;
     private VideoDetailsInfo info;
 
 
@@ -43,23 +44,23 @@ public class InfoP implements Plistener, PMlistener {
         mlistener=new InfoM(this);
     }
 
-    @Override
-    public void startPost(RxFragmentActivity rxFragmentActivity) {
-        mlistener.startPost(rxFragmentActivity);
-    }
+//    @Override
+//    public void startPost(RxAppCompatActivity rxFragmentActivity) {
+//        mlistener.startPost(rxFragmentActivity);
+//    }
 
-    public void startPostvideoDetails(RxFragmentActivity rxAppCompatActivity,String aid) {
+    public void startPostvideoDetails(RxAppCompatActivity rxAppCompatActivity,String aid) {
         mlistener.startPostvideoDetails(rxAppCompatActivity,aid);
     }
-    public void startPostVideoTag(RxFragmentActivity rxAppCompatActivity,String aid) {
+    public void startPostVideoTag(RxAppCompatActivity rxAppCompatActivity,String aid) {
         mlistener.startPostVideoTag(rxAppCompatActivity,aid);
     }
-    public void startPostAVSearchHtml(RxFragmentActivity rxAppCompatActivity,String aid) {
+    public void startPostAVSearchHtml(RxAppCompatActivity rxAppCompatActivity,String aid) {
         mlistener.startPostAVSearchHtml(rxAppCompatActivity,aid);
         aty=rxAppCompatActivity;
     }
 
-    public void startPostAVVideoHtml(RxFragmentActivity rxAppCompatActivity,Map<String, String> map) {
+    public void startPostAVVideoHtml(RxAppCompatActivity rxAppCompatActivity,Map<String, String> map) {
         mlistener.startPostAVVideoHtml(rxAppCompatActivity,map);
     }
 
@@ -144,5 +145,15 @@ public class InfoP implements Plistener, PMlistener {
 
     public VideoDetailsInfo getInfo() {
         return info;
+    }
+
+    @Override
+    public void startPostForActivity(RxAppCompatActivity rxAppCompatActivity) {
+
+    }
+
+    @Override
+    public void startPostForFragment(RxFragment rxFragment) {
+
     }
 }

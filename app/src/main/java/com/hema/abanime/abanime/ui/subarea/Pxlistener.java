@@ -1,6 +1,6 @@
 package com.hema.abanime.abanime.ui.subarea;
 
-import com.trello.rxlifecycle2.components.support.RxFragmentActivity;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 /**
  * p层提供给v层的接口
@@ -12,6 +12,6 @@ public interface Pxlistener {
      * http请求
      * @param rxAppCompatActivity
      */
-    void startPost(RxFragmentActivity rxAppCompatActivity,int type);
+    void startPost(RxAppCompatActivity rxAppCompatActivity, int type);
 
 }

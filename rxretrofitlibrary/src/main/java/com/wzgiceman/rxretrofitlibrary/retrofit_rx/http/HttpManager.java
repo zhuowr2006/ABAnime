@@ -3,7 +3,9 @@ package com.wzgiceman.rxretrofitlibrary.retrofit_rx.http;
 import android.util.Log;
 
 import com.trello.rxlifecycle2.android.ActivityEvent;
-import com.trello.rxlifecycle2.components.support.RxFragmentActivity;
+import com.trello.rxlifecycle2.android.FragmentEvent;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
+import com.trello.rxlifecycle2.components.support.RxFragment;
 import com.wzgiceman.rxretrofitlibrary.retrofit_rx.Api.BaseApi;
 import com.wzgiceman.rxretrofitlibrary.retrofit_rx.Observers.ProgressObserver;
 import com.wzgiceman.rxretrofitlibrary.retrofit_rx.RxRetrofitApp;
@@ -35,12 +37,18 @@ public class HttpManager {
     /*软引用對象*/
     private SoftReference<HttpOnNextListener> onNextListener;
     private SoftReference<HttpOnNextObserverListener> onNextSubListener;
-    private SoftReference<RxFragmentActivity> appCompatActivity;
+    private SoftReference<RxAppCompatActivity> appCompatActivity;
+    private SoftReference<RxFragment> appFragment;
 
 
-    public HttpManager(HttpOnNextListener onNextListener, RxFragmentActivity appCompatActivity) {
+    public HttpManager(HttpOnNextListener onNextListener, RxAppCompatActivity appCompatActivity) {
         this.onNextListener = new SoftReference(onNextListener);
         this.appCompatActivity = new SoftReference(appCompatActivity);
+    }
+
+    public HttpManager(HttpOnNextListener onNextListener, RxFragment appFragment) {
+        this.onNextListener = new SoftReference(onNextListener);
+        this.appFragment = new SoftReference(appFragment);
     }
 
 
@@ -52,20 +60,8 @@ public class HttpManager {
      * @param basePar 封装的请求数据
      */
     public void doHttpDeal(final BaseApi basePar) {
-//        Retrofit retrofit = getReTrofit(basePar.getConnectionTime(), basePar.getBaseUrl());
         httpDeal(basePar.getObservable(), basePar);
     }
-
-    /**
-     * 处理http请求
-     *
-     * @param basePar 封装的请求数据
-     */
-    public void doHttpDeal2(final BaseApi basePar) {
-//        Retrofit retrofit = getReTrofit(basePar.getConnectionTime(), basePar.getBaseUrl());
-        httpDeal2(basePar.getObservable(), basePar);
-    }
-
 
     /**
      * 获取Retrofit对象
@@ -99,54 +95,55 @@ public class HttpManager {
      * @param basePar
      */
     public void httpDeal(Observable observable, BaseApi basePar) {
-          /*失败后的retry配置*/
-        observable = observable.retryWhen(new RetryWhenNetworkException(basePar.getRetryCount(),
-                basePar.getRetryDelay(), basePar.getRetryIncreaseDelay()))
+         if (appCompatActivity!=null){
+                /*失败后的retry配置*/
+             observable = observable.retryWhen(new RetryWhenNetworkException(basePar.getRetryCount(),
+                     basePar.getRetryDelay(), basePar.getRetryIncreaseDelay()))
                 /*异常处理*/
-                .onErrorResumeNext(new ExceptionFunc())
+                     .onErrorResumeNext(new ExceptionFunc())
                 /*生命周期管理*/
-                //.compose(appCompatActivity.get().bindToLifecycle())
-                //Note:手动设置在activity onDestroy的时候取消订阅
-                .compose(appCompatActivity.get().bindUntilEvent(ActivityEvent.DESTROY))
+                     //.compose(appCompatActivity.get().bindToLifecycle())
+                     //Note:手动设置在activity onDestroy的时候取消订阅
+                     .compose(appCompatActivity.get().bindUntilEvent(ActivityEvent.DESTROY))
                 /*返回数据统一判断*/
-                .map(new ResulteFunc())
+                     .map(new ResulteFunc())
                 /*http请求线程*/
-                .subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
+                     .subscribeOn(Schedulers.io())
+                     .unsubscribeOn(Schedulers.io())
                 /*回调线程*/
-                .observeOn(AndroidSchedulers.mainThread());
+                     .observeOn(AndroidSchedulers.mainThread());
+         }else {
+                /*失败后的retry配置*/
+             observable = observable.retryWhen(new RetryWhenNetworkException(basePar.getRetryCount(),
+                     basePar.getRetryDelay(), basePar.getRetryIncreaseDelay()))
+                /*异常处理*/
+                     .onErrorResumeNext(new ExceptionFunc())
+                /*生命周期管理*/
+                     //.compose(appCompatActivity.get().bindToLifecycle())
+                     //Note:手动设置在activity onDestroy的时候取消订阅
+                     .compose(appFragment.get().bindUntilEvent(FragmentEvent.DESTROY))
+                /*返回数据统一判断*/
+                     .map(new ResulteFunc())
+                /*http请求线程*/
+                     .subscribeOn(Schedulers.io())
+                     .unsubscribeOn(Schedulers.io())
+                /*回调线程*/
+                     .observeOn(AndroidSchedulers.mainThread());
+         }
 
         /*ober回调，链接式返回*/
         if (onNextSubListener != null && null != onNextSubListener.get()) {
             onNextSubListener.get().onNext(observable, basePar.getMethod());
         }
-
         /*数据String回调*/
         if (onNextListener != null && null != onNextListener.get()) {
-            ProgressObserver subscriber = new ProgressObserver(basePar, onNextListener, appCompatActivity);
-            observable.subscribe(subscriber);
-        }
-    }
-    public void httpDeal2(Observable observable, BaseApi basePar) {
-          /*失败后的retry配置*/
-        observable = observable.retryWhen(new RetryWhenNetworkException(basePar.getRetryCount(),
-                basePar.getRetryDelay(), basePar.getRetryIncreaseDelay()))
-                /*异常处理*/
-                .onErrorResumeNext(new ExceptionFunc())
-                /*生命周期管理*/
-                //.compose(appCompatActivity.get().bindToLifecycle())
-                //Note:手动设置在activity onDestroy的时候取消订阅
-                .compose(appCompatActivity.get().bindUntilEvent(ActivityEvent.DESTROY))
-                /*http请求线程*/
-                .subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
-                /*回调线程*/
-                .observeOn(AndroidSchedulers.mainThread());
-
-        /*数据String回调*/
-        if (onNextListener != null && null != onNextListener.get()) {
-            ProgressObserver subscriber = new ProgressObserver(basePar, onNextListener, appCompatActivity);
-            observable.subscribe(subscriber);
+            if (appCompatActivity!=null){
+                ProgressObserver subscriber = new ProgressObserver(basePar, onNextListener, appCompatActivity.get());
+                observable.subscribe(subscriber);
+            }else {
+                ProgressObserver subscriber = new ProgressObserver(basePar, onNextListener, appFragment.get().getContext());
+                observable.subscribe(subscriber);
+            }
         }
     }
 
