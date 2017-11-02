@@ -18,7 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name="com.hema.abanime.abanime.ui.MainActivity"
-            android:theme="@style/ImageTranslucentTheme">
+            android:theme="@style/ImageTranslucentTheme"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -37,7 +37,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements HttpOn
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
+//        getSupportActionBar().hide();
         /**
          * 是否继承界面*/
         if (isExtendToBaseLayout){

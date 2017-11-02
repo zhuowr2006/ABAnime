@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.hema.abanime.abanime.R;
 import com.hema.abanime.abanime.base.TranslucentBarBaseActivity;
-import com.jaeger.library.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -92,7 +91,7 @@ public class MainItemActivity extends TranslucentBarBaseActivity implements View
 
     @Override
     protected void initView() {
-        StatusBarUtil.setColorNoTranslucent(MainItemActivity.this, getResources().getColor(R.color.bili_red));
+//        StatusBarUtil.setColorNoTranslucent(MainItemActivity.this, getResources().getColor(R.color.bili_red));
         if (viewPager != null) {
             setupViewPager(viewPager);
         }

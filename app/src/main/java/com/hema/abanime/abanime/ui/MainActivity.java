@@ -18,17 +18,20 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.hema.abanime.abanime.R;
+import com.hema.abanime.abanime.base.MyApplication;
 import com.hema.abanime.abanime.base.TranslucentBarBaseActivity;
 import com.hema.abanime.abanime.ui.fanju.FanjuFragment;
 import com.hema.abanime.abanime.ui.live.liveFragment;
 import com.hema.abanime.abanime.ui.recommend.recomFragment;
 import com.hema.abanime.abanime.ui.subarea.SubareaFragment;
 import com.hema.abanime.abanime.utils.ImageLoaderUtil;
+import com.hema.abanime.abanime.utils.PreferenceUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import skin.support.SkinCompatManager;
 
 import static com.hema.abanime.abanime.R.id.main_ap_layout;
 
@@ -76,19 +79,41 @@ public class MainActivity extends TranslucentBarBaseActivity implements Navigati
 //        //设置用户名 签名
 //        mUserName.setText(getResources().getText(R.string.test_username));
 //        mUserSign.setText(getResources().getText(R.string.test_username));
-        //设置日夜间模式切换
-//        mSwitchMode.setOnClickListener(v -> switchNightMode());
-//
-//
-//        boolean flag = PreferenceUtil.getBoolean(ConstantUtil.SWITCH_MODE_KEY, false);
-//        if (flag)
-//        {
-//            mSwitchMode.setImageResource(R.drawable.ic_switch_daily);
-//        } else
-//        {
-//            mSwitchMode.setImageResource(R.drawable.ic_switch_night);
-//        }
 
+
+        final ImageView img= (ImageView) headerView.findViewById(R.id.iv_head_switch_mode);
+        //设置日夜间模式切换
+
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final boolean flag = PreferenceUtil.getBoolean(MyApplication.SWITCH_MODE_KEY, false);
+                if (!flag){
+                    SkinCompatManager.getInstance().loadSkin("night.skin", null, SkinCompatManager.SKIN_LOADER_STRATEGY_ASSETS);
+                    PreferenceUtil.putBoolean(MyApplication.SWITCH_MODE_KEY, true);
+                    img.setImageResource(R.drawable.ic_switch_daily);
+                }else {
+                    SkinCompatManager.getInstance().restoreDefaultTheme();
+                    PreferenceUtil.putBoolean(MyApplication.SWITCH_MODE_KEY, false);
+                    img.setImageResource(R.drawable.ic_switch_night);
+                }
+            }
+        });
+        final boolean flag = PreferenceUtil.getBoolean(MyApplication.SWITCH_MODE_KEY, false);
+        if (flag)
+        {
+            img.setImageResource(R.drawable.ic_switch_daily);
+        } else
+        {
+            img.setImageResource(R.drawable.ic_switch_night);
+        }
+
+
+//        if (boolValue) {
+//            SkinCompatManager.getInstance().loadSkin("night.skin", null, SkinCompatManager.SKIN_LOADER_STRATEGY_ASSETS);
+//        } else {
+//            SkinCompatManager.getInstance().restoreDefaultTheme();
+//        }
     }
 
     @Override
