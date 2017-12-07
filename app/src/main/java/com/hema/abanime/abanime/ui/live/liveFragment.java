@@ -14,7 +14,6 @@ import com.hema.abanime.abanime.base.BaseFragment;
 import com.hema.abanime.abanime.play.PlayActivity;
 import com.hema.abanime.abanime.ui.live.adapter.LiveSectionAdapter;
 import com.hema.abanime.abanime.utils.BannerGlideImageLoader;
-import com.hema.abanime.abanime.utils.Md5;
 import com.wzgiceman.rxretrofitlibrary.retrofit_rx.exception.ApiException;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -76,15 +75,21 @@ public class liveFragment extends BaseFragment implements Vlistener, SwipeRefres
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (position != 0 || position != 22 || position != 33 || position != 44 || position != 55 || position != 66 || position != 77) {
-                    String appKey = "<Bilibili App Key Here>";
-                    String secretKey = "<Bilibili App Secret Key Here>";
-                    String cid = "" + recomP.getData().get(position).t.getRoom_id();
-                    String ts = "" + System.currentTimeMillis();
-                    String apiParams = "appkey=" + appKey + "&" + "cid=" + cid + "&" + "player=1&quality=0&ts=" + ts;
-
-                    recomP.setLiveTitle(recomP.getData().get(position).t.getTitle());
-                    String sign = Md5.strToMd5Low32(apiParams + secretKey);
-                    recomP.startPostLive(liveFragment.this, cid, appKey, ts, sign);
+//                    String appKey = "<Bilibili App Key Here>";
+//                    String secretKey = "<Bilibili App Secret Key Here>";
+//                    String cid = "" + recomP.getData().get(position).t.getRoom_id();
+//                    String ts = "" + System.currentTimeMillis();
+//                    String apiParams = "appkey=" + appKey + "&" + "cid=" + cid + "&" + "player=1&quality=0&ts=" + ts;
+//
+//                    recomP.setLiveTitle(recomP.getData().get(position).t.getTitle());
+//                    String sign = Md5.strToMd5Low32(apiParams + secretKey);
+//                    recomP.startPostLive(liveFragment.this, cid, appKey, ts, sign);
+                    Intent intent = new Intent();
+                    intent.setClass(mActivity, PlayActivity.class);
+                    intent.putExtra("video1", recomP.getData().get(position).t.getPlayurl());
+//                    intent.putExtra("video2",videoUrlList.get(1));
+                    intent.putExtra("title", recomP.getData().get(position).t.getTitle());
+                    startActivity(intent);
                 }
             }
         });
